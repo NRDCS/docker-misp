@@ -171,4 +171,3 @@ volumes:
   misp_var_www_misp:
   misp_etc:
 
-
