@@ -27,7 +27,7 @@ services:
     pids_limit: 30
     build:
       context: ./
-      dockerfile: mail-Dockerfile
+      dockerfile: postfix/Dockerfile
     tmpfs:
       - /tmp
       - /var/tmp
