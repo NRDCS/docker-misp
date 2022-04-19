@@ -4,7 +4,7 @@ services:
     image: redis:5.0.6
     container_name: redis
     restart: always
-    read_only: true
+    read_only: false
     mem_limit: ${REDISMEMLIMIT}
     cpus: ${REDISCPUS}
     cpu_shares: 128
@@ -17,7 +17,7 @@ services:
       retries: 5
 
   mail:
-    image: catatnight/postfix
+    image: postfix:1.0
     restart: always
     container_name: mail
     read_only: true
@@ -73,6 +73,7 @@ services:
     volumes:
       - "mysql_var_lib:/var/lib:rw"
       - "mysql_var_log:/var/log:rw"
+      - "mysql_var_lib_mysql:/var/lib/mysql:rw"
       - "mysql_etc:/etc:rw"
     cap_add:
       - SYS_NICE
@@ -84,7 +85,7 @@ services:
   misp-modules:
     image: coolacid/misp-docker:modules-latest
     restart: always
-    read_only: true
+    read_only: false
     mem_limit: ${MISPMODMEMLIMIT}
     cpu_shares: 128
     cpus: ${MISPMODCPUS}
@@ -160,6 +161,7 @@ volumes:
   postfix_opt:
   postfix_etc:
 
+  mysql_var_lib_mysql:
   mysql_var_lib:
   mysql_var_log:
   mysql_etc:
