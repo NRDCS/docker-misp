@@ -9,6 +9,13 @@ services:
     cpus: ${REDISCPUS}
     cpu_shares: 128
     pids_limit: 15
+    ulimits:
+      nofile:
+        soft: 512
+        hard: 1024
+      nproc:
+        soft: 16
+        hard: 32
     cap_drop:
       - MKNOD
       - SYS_CHROOT
@@ -23,11 +30,18 @@ services:
     image: postfix:1.0
     restart: always
     container_name: mail
-    read_only: true
+    read_only: false
     mem_limit: ${MAILMEMLIMIT}
     cpu_shares: 128
     cpus: ${MAILCPUS}
     pids_limit: 30
+    ulimits:
+      nofile:
+        soft: 512
+        hard: 1024
+      nproc: 
+        soft: 16
+        hard: 32
     build:
       context: ./
       dockerfile: postfix/Dockerfile
@@ -64,7 +78,14 @@ services:
     mem_limit: ${MYSQLMEMLIMIT}
     cpu_shares: 512
     cpus: ${MYSQLCPUS}
-    pids_limit: 70 
+    pids_limit: 70
+    ulimits:
+      nofile:
+        soft: 512
+        hard: 1024
+      nproc:
+        soft: 256
+        hard: 512
     environment:
       - "MYSQL_USER=${MYSQLUSER}"
       - "MYSQL_PASSWORD=${MYSQLPASSWORD}"
@@ -99,7 +120,14 @@ services:
     cpu_shares: 128
     cpus: ${MISPMODCPUS}
     container_name: misp-modules
-    pids_limit: 5 
+    pids_limit: 5
+    ulimits:
+      nofile:
+        soft: 512
+        hard: 1024
+      nproc:
+        soft: 16
+        hard: 32
     build:
       context: ./
       dockerfile: misp-modules-Dockerfile
@@ -129,6 +157,13 @@ services:
     cpu_shares: 512
     cpus: ${MISPCPUS}
     pids_limit: 70
+    ulimits:
+      nofile:
+        soft: 512
+        hard: 1024
+      nproc:
+        soft: 256
+        hard: 512
     build:
       context: ./
       dockerfile: misp-Dockerfile
