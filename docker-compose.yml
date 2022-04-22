@@ -11,6 +11,7 @@ services:
     pids_limit: 15
     cap_drop:
       - MKNOD
+      - SYS_CHROOT
     volumes:
       - "redis_data:/data:rw"
     healthcheck:
@@ -32,6 +33,7 @@ services:
       dockerfile: postfix/Dockerfile
     cap_drop:
       - MKNOD
+      - SYS_CHROOT
     tmpfs:
       - /tmp
       - /var/tmp
@@ -83,6 +85,7 @@ services:
       - SYS_NICE
     cap_drop:
       - MKNOD
+      - SYS_CHROOT
     healthcheck:
       test: ["CMD", "mysqladmin", "-uroot", "-ppassword", "ping", "-h", "localhost"]
       timeout: 10s
@@ -121,7 +124,7 @@ services:
     image: coolacid/misp-docker:core-latest
     restart: always
     container_name: misp-web
-    read_only: true
+    read_only: false
     mem_limit: ${MISPMEMLIMIT}
     cpu_shares: 512
     cpus: ${MISPCPUS}

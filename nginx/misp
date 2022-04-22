@@ -7,9 +7,8 @@ server {
     client_max_body_size 50M;
 
     # Disable access logs
-    access_log off;
-    log_not_found off;
-    error_log  /dev/stderr error;
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log;
 
     ssl_certificate /etc/nginx/certs/cert.pem;
     ssl_certificate_key /etc/nginx/certs/key.pem;
