@@ -100,7 +100,7 @@ services:
     volumes:
       - "mysql_var_lib:/var/lib:rw"
       - "mysql_var_log:/var/log:rw"
-      - "mysql_var_lib_mysql:/var/lib/mysql:rw"
+      - "/opt/mysql/data:/var/lib/mysql:rw"
       - "mysql_etc:/etc:rw"
     cap_add:
       - SYS_NICE
