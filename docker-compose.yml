@@ -34,17 +34,17 @@ services:
     mem_limit: ${MAILMEMLIMIT}
     cpu_shares: 128
     cpus: ${MAILCPUS}
-    pids_limit: 30
+    pids_limit: 60
     ulimits:
       nofile:
         soft: 512
         hard: 1024
       nproc: 
-        soft: 16
-        hard: 32
+        soft: 200
+        hard: 500
     build:
       context: ./
-      dockerfile: postfix/Dockerfile
+      dockerfile: postfix-Dockerfile
     cap_drop:
       - MKNOD
       - SYS_CHROOT
@@ -55,7 +55,8 @@ services:
       - /run
       - /var/run
     volumes:
-      - "./postfix_data/main.cf:/etc/postfix/main.cf:rw"
+      - "./postfixfiles/main.cf:/etc/postfix/main.cf:rw"
+      - "./postfixfiles/master.cf:/etc/postfix/master.cf:rw"
       - "postfix_etc:/etc:rw"
       - "postfix_var_log:/var/log:rw"
       - "postfix_var_mail:/var/mail:rw"
@@ -65,9 +66,9 @@ services:
     ports:
       - "127.0.0.1:25:25"
     healthcheck:
-      test: ["CMD", "nc", "-v", "-w1", "127.0.0.1", "25"]
-      timeout: 10s
-      retries: 5
+      test: ["CMD-SHELL", "nc -v -w1 127.0.0.1 25"]
+      timeout: 5s
+      retries: 2
 
   db:
     image: mysql:8.0.19

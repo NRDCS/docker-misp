@@ -1,0 +1,18 @@
+FROM ubuntu:latest
+
+RUN apt-get update -y -q
+RUN apt-get install -y libsasl2-modules
+RUN apt-get install -y postfix
+RUN apt-get install -y opendkim
+RUN apt-get install -y ca-certificates vim supervisor rsyslog bash opendkim-tools curl libcurl4 postfix-lmdb netcat iproute2
+
+COPY postfix_entrypoint.sh /entrypoint.sh
+COPY postfixfiles/nrdcs_postfix.sh /opt/nrdcs_postfix.sh
+COPY postfixfiles/conf_d_supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY postfixfiles/conf_d_supervisord.conf /root/  
+
+RUN chmod +x /entrypoint.sh
+RUN chmod +x /opt/nrdcs_postfix.sh
+RUN chmod 644 /etc/supervisor/conf.d/supervisord.conf
+
+ENTRYPOINT [ "/entrypoint.sh" ]
